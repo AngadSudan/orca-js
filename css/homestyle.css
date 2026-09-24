@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ink: #18201d;
+    --muted: #68736d;
+    --line: #d8dfda;
+    --paper: #f5f6f1;
+    --accent: #d7f26b;
+    --accent-dark: #657818;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--ink);
+    background: var(--paper);
+    font-family: 'Manrope', 'Trebuchet MS', sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px clamp(24px, 7vw, 100px);
+    border-bottom: 1px solid var(--line);
+}
+
+.brand { display: block; width: 92px; }
+.brand img { display: block; width: 100%; scale: 2; height: auto; mix-blend-mode: multiply; }
+.header-link { color: var(--muted); font-family: 'DM Mono', monospace; font-size: .75rem; }
+.header-link span, .start-link span { color: var(--accent-dark); }
+
+.home-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+    gap: clamp(44px, 10vw, 150px);
+    width: min(1080px, calc(100% - 48px));
+    min-height: calc(100vh - 89px);
+    margin: 0 auto;
+    padding: clamp(64px, 12vh, 150px) 0 80px;
+    align-items: center;
+}
+
+.eyebrow {
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+.home-copy h1 {
+    max-width: 620px;
+    margin: 18px 0 24px;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: .98;
+    letter-spacing: -.05em;
+}
+
+.title-mark { color: var(--accent-dark); }
+.home-description { max-width: 390px; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
+.start-link { display: inline-flex; gap: 22px; align-items: center; margin-top: 40px; padding: 15px 18px; background: var(--ink); color: white; border-radius: 4px; font-weight: 700; }
+.start-link:hover { background: #34423b; }
+.home-visual { position: relative; padding: 28px 0 0; border-top: 1px solid var(--ink); }
+.visual-rule { position: absolute; top: -1px; left: 0; width: 72px; border-top: 4px solid var(--accent-dark); }
+.home-visual img { display: block; width: 100%; mix-blend-mode: multiply; }
+.home-visual p { margin-top: 24px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: .75rem; }
+
+@media (max-width: 700px) {
+    .home-main {
+        display: block;
+        min-height: auto;
+        padding-top: 70px;
+    }
+    .home-copy h1 { font-size: clamp(3rem, 15vw, 5rem); }
+    .home-visual { margin-top: 76px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-copy h1::after { animation: none; }
+}
