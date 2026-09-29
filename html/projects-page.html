@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/projects-page.css">
+    <script src="../js/projects-page.js" defer></script>
+    <title>ORCA | Project</title>
+</head>
+<body>
+    <header class="page-header">
+        <a class="brand" href="../index.html" aria-label="ORCA home"><img src="../assets/logo.png" alt="ORCA"></a>
+        <p class="page-kicker">Your workspace</p>
+    </header>
+
+    <main class="projects-page">
+        <section class="intro" aria-labelledby="page-title">
+            <p class="eyebrow">Projects</p>
+            <h1 id="page-title" data-typing-text="Build something clear."></h1>
+            <p class="intro-copy">Keep your ideas in one place and pick up where you left off.</p>
+        </section>
+
+        <section class="project-tools" aria-label="Project tools">
+            <label class="search-field">
+                <span class="sr-only">Search projects</span>
+                <input id="project-search" type="search" placeholder="Search projects" autocomplete="off">
+            </label>
+            <label class="filter-field">
+                <span class="sr-only">Filter projects</span>
+                <select id="project-filter">
+                    <option value="all">All projects</option>
+                    <option value="active">Active</option>
+                    <option value="archived">Archived</option>
+                </select>
+            </label>
+            <button class="primary-button" id="add-project" type="button">+ New project</button>
+        </section>
+
+        <section class="projects-section" aria-labelledby="projects-heading">
+            <div class="section-heading">
+                <h2 id="projects-heading">Recent projects</h2>
+                <span id="project-count" aria-live="polite"></span>
+            </div>
+            <div id="project-list" class="project-list" aria-live="polite"></div>
+            <p id="empty-state" class="empty-state" hidden>No projects match your search.</p>
+        </section>
+    </main>
+
+    <dialog id="project-dialog">
+        <form id="project-form" method="dialog">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">New project</p>
+                    <h2>Give it a name</h2>
+                </div>
+                <button class="icon-button" id="close-dialog" type="button" aria-label="Close dialog">x</button>
+            </div>
+            <label for="project-name">Project name</label>
+            <input id="project-name" name="name" type="text" maxlength="60" required placeholder="e.g. Brand refresh">
+            <label for="project-description">Description <span>(optional)</span></label>
+            <textarea id="project-description" name="description" rows="3" maxlength="160" placeholder="What are you making?"></textarea>
+            <div class="dialog-actions">
+                <button class="secondary-button" id="cancel-dialog" type="button">Cancel</button>
+                <button class="primary-button" type="submit">Create project</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+</html>
