@@ -1,0 +1,764 @@
+{
+  "aws": {
+    "id": "aws",
+    "name": "Amazon Web Services",
+    "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786166947/Arch_Elastic-Load-Balancing_32_zbxkcm.svg",
+    "description": "Connect to your AWS account",
+    "resources": {
+      "app_elb": {
+        "label": "Application Load Balancer",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786166947/Arch_Elastic-Load-Balancing_32_zbxkcm.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for the ALB"
+          },
+          "name": {
+            "label": "ALB Name",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "Name of the Application Load Balancer"
+          },
+          "alb_name": {
+            "label": "ALB Name (Alternative)",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "Alternative ALB name field"
+          },
+          "internal": {
+            "label": "Internal Load Balancer",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Whether the ALB is internal or internet-facing"
+          },
+          "security_group_ids": {
+            "label": "Security Group IDs",
+            "type": "array",
+            "required": false,
+            "default": null,
+            "description": "Security groups for the ALB"
+          },
+          "subnet_ids": {
+            "label": "Subnet IDs",
+            "type": "array",
+            "required": false,
+            "default": null,
+            "description": "Subnets for the ALB"
+          },
+          "enable_deletion_protection": {
+            "label": "Enable Deletion Protection",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Prevent accidental deletion of the ALB"
+          },
+          "idle_timeout": {
+            "label": "Idle Timeout (seconds)",
+            "type": "number",
+            "required": false,
+            "default": 60,
+            "description": "Connection idle timeout"
+          },
+          "ip_address_type": {
+            "label": "IP Address Type",
+            "type": "string",
+            "required": false,
+            "default": "ipv4",
+            "description": "IPv4 or IPv6"
+          },
+          "enable_http2": {
+            "label": "Enable HTTP/2",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Enable HTTP/2 support"
+          },
+          "enable_cross_zone_load_balancing": {
+            "label": "Cross-Zone Load Balancing",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Enable cross-zone load balancing"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {
+          "securityGroups": {
+            "label": "Security Groups",
+            "type": "dependency",
+            "dependsOn": ["security_groups"],
+            "required": false,
+            "description": "Define or reference security groups for ALB traffic control"
+          }
+        }
+      },
+      "asg": {
+        "label": "Auto Scaling Group",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786165680/Arch_Amazon-EC2-Auto-Scaling_32_h6vki5.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for ASG"
+          },
+          "name": {
+            "label": "ASG Name",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "Name of the Auto Scaling Group"
+          },
+          "min_size": {
+            "label": "Minimum Size",
+            "type": "number",
+            "required": true,
+            "default": null,
+            "description": "Minimum number of instances"
+          },
+          "max_size": {
+            "label": "Maximum Size",
+            "type": "number",
+            "required": true,
+            "default": null,
+            "description": "Maximum number of instances"
+          },
+          "desired_capacity": {
+            "label": "Desired Capacity",
+            "type": "number",
+            "required": true,
+            "default": null,
+            "description": "Desired number of running instances"
+          },
+          "subnet_ids": {
+            "label": "Subnet IDs",
+            "type": "array",
+            "required": true,
+            "default": null,
+            "description": "Subnets for ASG instances"
+          },
+          "target_group_arns": {
+            "label": "Target Group ARNs",
+            "type": "array",
+            "required": false,
+            "default": [],
+            "description": "Load balancer target groups"
+          },
+          "health_check_type": {
+            "label": "Health Check Type",
+            "type": "string",
+            "required": false,
+            "default": "EC2",
+            "description": "EC2 or ELB health checks"
+          },
+          "health_check_grace_period": {
+            "label": "Health Check Grace Period",
+            "type": "number",
+            "required": false,
+            "default": 300,
+            "description": "Seconds before health checks begin"
+          },
+          "launch_template_id": {
+            "label": "Launch Template ID",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "Launch template ID for instances"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {
+          "launchTemplate": {
+            "label": "Launch Template",
+            "type": "dependency",
+            "dependsOn": ["launch_template"],
+            "required": true,
+            "description": "Configure the launch template for ASG instances"
+          }
+        }
+      },
+      "ec2": {
+        "label": "EC2 Instance",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786165655/Arch_Amazon-EC2_32_sp4svm.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": "us-east-1",
+            "description": "AWS region for EC2 instance"
+          },
+          "instance_type": {
+            "label": "Instance Type",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "t2.micro, t3.small, m5.large, etc."
+          },
+          "ami": {
+            "label": "AMI ID",
+            "type": "string",
+            "required": false,
+            "default": "ami-linux",
+            "description": "Amazon Machine Image ID"
+          },
+          "subnet_id": {
+            "label": "Subnet ID",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "VPC subnet for the instance"
+          },
+          "security_group_ids": {
+            "label": "Security Group IDs",
+            "type": "array",
+            "required": false,
+            "default": null,
+            "description": "Security groups for the instance"
+          },
+          "key_name": {
+            "label": "Key Pair Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "EC2 Key Pair for SSH access"
+          },
+          "associate_public_ip_address": {
+            "label": "Associate Public IP",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Assign a public IP address"
+          },
+          "root_volume_size": {
+            "label": "Root Volume Size (GB)",
+            "type": "number",
+            "required": false,
+            "default": null,
+            "description": "Root volume size in GB"
+          },
+          "root_volume_type": {
+            "label": "Root Volume Type",
+            "type": "string",
+            "required": false,
+            "default": "gp3",
+            "description": "gp3, io1, st1, sc1"
+          },
+          "root_delete_on_termination": {
+            "label": "Delete Root Volume on Termination",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Delete volume when instance is terminated"
+          },
+          "root_encrypted": {
+            "label": "Encrypt Root Volume",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Enable EBS encryption"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {
+          "securityGroups": {
+            "label": "Security Groups",
+            "type": "dependency",
+            "dependsOn": ["security_groups"],
+            "required": true,
+            "description": "Create or reference security groups for instance access control"
+          },
+          "keyPair": {
+            "label": "Key Pair",
+            "type": "dependency",
+            "dependsOn": ["key_pair"],
+            "required": true,
+            "description": "Create or reference EC2 key pair for SSH access"
+          }
+        }
+      },
+      "lambda": {
+        "label": "Lambda Function",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786165793/Arch_AWS-Lambda_32_jfdpxb.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for Lambda"
+          },
+          "function_name": {
+            "label": "Function Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Lambda function name"
+          },
+          "role_arn": {
+            "label": "IAM Role ARN",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "IAM role for Lambda execution"
+          },
+          "handler": {
+            "label": "Handler",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "index.handler, lambda_function.lambda_handler"
+          },
+          "runtime": {
+            "label": "Runtime",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "python3.11, nodejs18.x, java11"
+          },
+          "memory_size": {
+            "label": "Memory (MB)",
+            "type": "number",
+            "required": false,
+            "default": 128,
+            "description": "128 to 10240"
+          },
+          "timeout": {
+            "label": "Timeout (seconds)",
+            "type": "number",
+            "required": false,
+            "default": 3,
+            "description": "Function execution timeout"
+          },
+          "environment_variables": {
+            "label": "Environment Variables",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Lambda function environment variables"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {
+          "iamRole": {
+            "label": "IAM Role",
+            "type": "dependency",
+            "dependsOn": ["iam_role"],
+            "required": true,
+            "description": "Configure IAM role and permissions for Lambda execution"
+          }
+        }
+      },
+      "rds": {
+        "label": "Relational Database Service",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786166150/Arch_Amazon-RDS_32_ldmop4.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for RDS"
+          },
+          "identifier": {
+            "label": "DB Instance Identifier",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Unique database identifier"
+          },
+          "engine": {
+            "label": "Database Engine",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "mysql, postgres, mariadb, oracle-se2"
+          },
+          "engine_version": {
+            "label": "Engine Version",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Database engine version"
+          },
+          "instance_class": {
+            "label": "Instance Class",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "db.t3.micro, db.t3.small, db.m5.large"
+          },
+          "allocated_storage": {
+            "label": "Allocated Storage (GB)",
+            "type": "number",
+            "required": true,
+            "default": null,
+            "description": "Initial storage in GB"
+          },
+          "username": {
+            "label": "Master Username",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Database admin username"
+          },
+          "password": {
+            "label": "Master Password",
+            "type": "password",
+            "required": true,
+            "default": null,
+            "description": "Database admin password"
+          },
+          "port": {
+            "label": "Port",
+            "type": "number",
+            "required": false,
+            "default": null,
+            "description": "Database port (3306 MySQL, 5432 PostgreSQL)"
+          },
+          "security_group_ids": {
+            "label": "Security Group IDs",
+            "type": "array",
+            "required": false,
+            "default": [],
+            "description": "VPC security groups"
+          },
+          "publicly_accessible": {
+            "label": "Publicly Accessible",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Allow public internet access"
+          },
+          "multi_az": {
+            "label": "Multi-AZ Deployment",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Enable high availability"
+          },
+          "storage_encrypted": {
+            "label": "Encryption",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Enable database encryption"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {
+          "securityGroups": {
+            "label": "Security Groups",
+            "type": "dependency",
+            "dependsOn": ["security_groups"],
+            "required": false,
+            "description": "Database security group configuration"
+          }
+        }
+      },
+      "s3": {
+        "label": "Simple Storage Service",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786166371/Arch_Amazon-Simple-Storage-Service_32_pbxnub.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for S3 bucket"
+          },
+          "bucket": {
+            "label": "Bucket Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Unique S3 bucket name"
+          },
+          "force_destroy": {
+            "label": "Force Destroy",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Delete bucket even if not empty"
+          },
+          "object_lock_enabled": {
+            "label": "Object Lock",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Enable S3 Object Lock"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {}
+      },
+      "sqs": {
+        "label": "Simple Queue Service",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786165599/Arch_Amazon-Simple-Queue-Service_32_ueigwp.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for SQS"
+          },
+          "name": {
+            "label": "Queue Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "SQS queue name"
+          },
+          "fifo_queue": {
+            "label": "FIFO Queue",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Enable FIFO message ordering"
+          },
+          "visibility_timeout_seconds": {
+            "label": "Visibility Timeout",
+            "type": "number",
+            "required": false,
+            "default": 30,
+            "description": "Message visibility timeout in seconds"
+          },
+          "message_retention_seconds": {
+            "label": "Message Retention",
+            "type": "number",
+            "required": false,
+            "default": 345600,
+            "description": "Message retention in seconds (default 4 days)"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {}
+      },
+      "dynamo_db": {
+        "label": "DynamoDB",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786166115/Arch_Amazon-DynamoDB_32_h0unoz.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for DynamoDB"
+          },
+          "name": {
+            "label": "Table Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "DynamoDB table name"
+          },
+          "billing_mode": {
+            "label": "Billing Mode",
+            "type": "string",
+            "required": false,
+            "default": "PAY_PER_REQUEST",
+            "description": "PAY_PER_REQUEST or PROVISIONED"
+          },
+          "hash_key": {
+            "label": "Hash Key",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Partition key attribute"
+          },
+          "range_key": {
+            "label": "Range Key",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "Sort key attribute"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {}
+      },
+      "kinesis": {
+        "label": "Kinesis Stream",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786165522/Arch_Amazon-Kinesis_32_dyjtik.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for Kinesis"
+          },
+          "name": {
+            "label": "Stream Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Kinesis stream name"
+          },
+          "stream_mode": {
+            "label": "Stream Mode",
+            "type": "string",
+            "required": false,
+            "default": "ON_DEMAND",
+            "description": "ON_DEMAND or PROVISIONED"
+          },
+          "shard_count": {
+            "label": "Shard Count",
+            "type": "number",
+            "required": false,
+            "default": null,
+            "description": "Number of shards (for PROVISIONED mode)"
+          },
+          "retention_period": {
+            "label": "Retention Period (hours)",
+            "type": "number",
+            "required": false,
+            "default": 24,
+            "description": "Record retention in hours"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {}
+      },
+      "iam_role": {
+        "label": "IAM Role",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786167026/Res_AWS-Identity-Access-Management_Role_48_tj7upz.png",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region"
+          },
+          "name": {
+            "label": "Role Name",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "IAM role name"
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "Role description"
+          },
+          "assume_role_policy": {
+            "label": "Trust Policy",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "Trust relationship JSON policy"
+          },
+          "max_session_duration": {
+            "label": "Max Session Duration",
+            "type": "number",
+            "required": false,
+            "default": 3600,
+            "description": "Maximum session duration in seconds"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {}
+      },
+      "vpc": {
+        "label": "Virtual Private Cloud",
+        "icon_url": "https://res.cloudinary.com/djy3ewpb8/image/upload/v1786165454/Virtual-private-cloud-VPC_32_xme5fo.svg",
+        "environmentVariables": {
+          "region": {
+            "label": "AWS Region",
+            "type": "string",
+            "required": false,
+            "default": null,
+            "description": "AWS region for VPC"
+          },
+          "cidr_block": {
+            "label": "CIDR Block",
+            "type": "string",
+            "required": true,
+            "default": null,
+            "description": "VPC CIDR block (e.g., 10.0.0.0/16)"
+          },
+          "tags": {
+            "label": "Tags",
+            "type": "object",
+            "required": false,
+            "default": {},
+            "description": "Resource tags"
+          }
+        },
+        "additionalCustomizations": {}
+      }
+    }
+  }
+}
