@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/drawboard.css">
+    <script src="../js/drawboard.js" type="module"></script>
+    <title>ORCA | Drawboard</title>
+</head>
+<body>
+    <header class="drawboard-header">
+        <a class="brand" href="../index.html" aria-label="ORCA home"><img src="../assets/logo.png" alt="ORCA"></a>
+        <div class="board-title-wrap">
+            <span class="board-status" id="save-status">Saved locally</span>
+            <h1 id="project-title">Loading project</h1>
+        </div>
+        <a class="back-link" href="./projects-page.html">&lt;- Projects</a>
+    </header>
+
+    <main class="workspace" id="workspace">
+        <section class="editor-panel" aria-labelledby="editor-heading">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">01 / Brief</p>
+                    <h2 id="editor-heading">Describe the system</h2>
+                </div>
+                <div class="editor-tabs" role="tablist" aria-label="Editor mode">
+                    <button class="editor-tab active" data-mode="markdown" role="tab" type="button">Markdown</button>
+                    <button class="editor-tab" data-mode="html" role="tab" type="button">HTML</button>
+                </div>
+            </div>
+            <div class="editor-shell">
+                <textarea id="editor-input" spellcheck="false" placeholder="Write a brief about the system..."></textarea>
+            </div>
+            <div class="preview-heading"><span>Preview</span><span class="shortcut-hint">Press / on canvas for components</span></div>
+            <article id="editor-preview" class="editor-preview"></article>
+        </section>
+        <div class="panel-resizer" id="panel-resizer" role="separator" aria-label="Resize brief and architecture panels" aria-valuemin="30" aria-valuemax="70" aria-valuenow="40" tabindex="0"></div>
+
+        <section class="board-panel" aria-labelledby="board-heading">
+            <div class="panel-heading board-panel-heading">
+                <div>
+                    <p class="eyebrow">02 / Architecture</p>
+                    <h2 id="board-heading">System canvas</h2>
+                </div>
+                <div class="board-tools">
+                    <div class="zoom-tools" aria-label="Canvas zoom controls">
+                        <button class="zoom-button" id="zoom-out" type="button" aria-label="Zoom out">-</button>
+                        <span id="zoom-level">100%</span>
+                        <button class="zoom-button" id="zoom-in" type="button" aria-label="Zoom in">+</button>
+                        <button class="zoom-button zoom-reset" id="zoom-fit" type="button">Fit</button>
+                        <button class="zoom-button zoom-reset" id="zoom-reset" type="button">Reset</button>
+                    </div>
+                    <label class="edge-style-control">Arrow
+                        <select id="edge-style" aria-label="Arrow style">
+                            <option value="curved">Curved</option>
+                            <option value="straight">Straight</option>
+                        </select>
+                    </label>
+                    <button id="connect-toggle" class="tool-button" type="button">Connect nodes</button>
+                    <button id="export-config" class="tool-button export-button" type="button">Export config</button>
+                </div>
+            </div>
+            <div id="canvas-board" class="canvas-board">
+                <canvas id="board-canvas" aria-hidden="true"></canvas>
+                <svg id="edge-layer" aria-hidden="true"></svg>
+                <div id="node-layer"></div>
+                <div id="slash-menu" class="slash-menu" hidden></div>
+                <div id="canvas-empty" class="canvas-empty"></div>
+            </div>
+            <footer class="board-footer"><span id="node-count">0 components</span><span>Drag nodes to arrange</span></footer>
+        </section>
+    </main>
+    <dialog id="node-settings-dialog">
+        <form id="node-settings-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">Component settings</p>
+                    <h2 id="node-settings-title">Environment variables</h2>
+                </div>
+                <button class="icon-button" id="close-node-settings" type="button" aria-label="Close settings">x</button>
+            </div>
+            <div id="node-fields"></div>
+            <div class="node-settings-actions">
+                <button class="tool-button" id="cancel-node-settings" type="button">Cancel</button>
+                <button class="tool-button settings-save" type="submit">Save values</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+</html>
