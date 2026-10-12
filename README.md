@@ -81,61 +81,6 @@ You need:
   - IndexedDB
   - Web Workers
   - `crypto.randomUUID()`
-- A local static HTTP server
-
-A static HTTP server is recommended because ES modules and browser security policies can prevent the application from working correctly when opened directly with the `file://` protocol.
-
-## Running the Application
-
-### 1. Clone the repository
-
-```bash
-git clone <repository-url>
-cd orca-js
-```
-
-Replace `<repository-url>` with the URL of your ORCA repository.
-
-### 2. Start a local HTTP server
-
-If you have Python installed:
-
-```bash
-python3 -m http.server 8000
-```
-
-### 3. Open ORCA
-
-Open the following URL in your browser:
-
-```text
-http://localhost:8000
-```
-
-### 4. Create a project
-
-From the ORCA home page:
-
-1. Open **Projects**.
-2. Create a new project.
-3. Enter the project name and description.
-4. Open the created project.
-
-### 5. Design the architecture
-
-Inside the project board:
-
-1. Add cloud resources from the provider catalog.
-2. Position resources on the canvas.
-3. Connect resources to represent relationships.
-4. Open resource settings to configure parameters.
-5. Add a project brief using Markdown or HTML.
-
-### 6. Export the configuration
-
-Use the export functionality from the project board to generate the architecture configuration.
-
-The generated file is downloaded to your browser as a TypeScript configuration file.
 
 ## Data Storage
 
@@ -199,15 +144,15 @@ The export process runs inside a Web Worker so configuration generation does not
 
 ## Technology Stack
 
-| Technology | Purpose |
-|---|---|
-| HTML5 | Application structure |
-| CSS3 | UI styling and architecture board presentation |
-| JavaScript ES Modules | Application logic |
-| IndexedDB | Local project persistence |
-| Web Workers | Background configuration generation |
-| JSON | Cloud provider/resource catalog |
-| Terraform-style configuration | Infrastructure representation |
+| Technology                    | Purpose                                        |
+| ----------------------------- | ---------------------------------------------- |
+| HTML5                         | Application structure                          |
+| CSS3                          | UI styling and architecture board presentation |
+| JavaScript ES Modules         | Application logic                              |
+| IndexedDB                     | Local project persistence                      |
+| Web Workers                   | Background configuration generation            |
+| JSON                          | Cloud provider/resource catalog                |
+| Terraform-style configuration | Infrastructure representation                  |
 
 ## Current Scope
 
